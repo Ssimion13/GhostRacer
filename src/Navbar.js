@@ -1,5 +1,5 @@
 import React from 'react';
-import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, Button } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, } from 'reactstrap';
 import {Link, } from "react-router-dom";
 
 export default class Example extends React.Component {
@@ -27,10 +27,7 @@ export default class Example extends React.Component {
 
 
   render() {
-    let isAuthenticated = false
-    if (localStorage.token){
-        isAuthenticated = true
-    }
+
     return (
       <div>
         <Navbar color="faded" light>
