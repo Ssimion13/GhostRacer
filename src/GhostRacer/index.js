@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import {Button} from "reactstrap"
-
+import GhostRacerChoreList from "./GhostRacerChoreList"
+import GhostRacerComponent from "./GhostRacerComponent"
 
 
 class GhostRacer extends Component {
@@ -21,6 +22,7 @@ class GhostRacer extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFinish = this.handleFinish.bind(this);
+        this.clearChores = this.clearChores.bind(this);
     }
 
     handleChange(e){
@@ -31,7 +33,8 @@ class GhostRacer extends Component {
 
     handleSubmit(e){
         this.setState({
-            choreList: this.state.choreList.concat(this.state.chore)
+            choreList: this.state.choreList.concat(this.state.chore),
+            chore: ""
         })
     }
 
@@ -68,60 +71,62 @@ class GhostRacer extends Component {
 
     handleFinish() {
         this.setState({
+            toggleStart: true,
             finishTime: this.state.seconds,
             finished: true
+        })
+        clearInterval(this.interval);
+    }
+    clearChores() {
+        this.setState ({
+            chore: "",
+            choreList: []
         })
     }
 
 
 
-
     render(){
-        var mappedChoreList = this.state.choreList.map((x,i) => {
-            return(
-                <div key={x+i + 100}>
-                    <li> {x} </li>
-                </div>
-            )
-        })
+
         return(
             <div>
-            <form>
-                <input name="chore" placeholder="Chores to do" onChange={this.handleChange} />
-                <Button onClick={this.handleSubmit}> Submit </Button>
-            </form>
-                
-            <div>
-            Ghost Racer 
-            {this.state.toggleStart ? 
-            <Button color="primary" onClick={this.handleStart}> Start </Button>
-            : <Button color="secondary" onClick={this.handleStop}> Stop </Button> }
-            <Button onClick={this.handleReset}> Reset </Button>
-            <Button onClick={this.handleCheckpoint}> Checkpoint </Button>
-            <Button onClick={this.handleFinish}> Done! </Button>
-
-                <div> 
-                {Math.round(this.state.seconds / 60)} : {this.state.seconds % 60}
-                </div>
-            </div>
-            {this.state.choreList.length > 0 ? 
-                <div>
-                    <h2> Current Chores </h2>
-                    <ol>
-                        {mappedChoreList}
-                    </ol>
-                </div>
-            : null }
-            <div>
-                {this.state.checkpoints.map((x, i) => {
-                    return (
-                    <div key={x+i}> 
-                       {this.state.choreList[i]} {x} 
+                <form className="choreFormMain">
+                    <div className="choreFormHolderDiv">
+                        <div>
+                            <input  className="choreInput" name="chore" placeholder="Chores to do" value={this.state.chore} onChange={this.handleChange} />
+                        </div>
+                        <div className="choreFormButtons">
+                            <Button onClick={this.handleSubmit}> Submit </Button>
+                            <Button onClick={this.clearChores}> Clear </Button>
+                            <GhostRacerChoreList choreList={this.state.choreList} />
+                        </div>
                     </div>
-                    )
-                })}
+                </form>
+                    
+                <div>
+                    <div className="timerDiv"> 
+                    {Math.round(this.state.seconds / 60)} : {this.state.seconds % 60}
+                    </div>
+                </div>
+                <div className="GhostRacerButtonsMainDiv" >
+                    {this.state.toggleStart ? 
+                    <Button color="success" onClick={this.handleStart}> Start </Button>
+                    : <Button color="danger" onClick={this.handleStop}> Stop </Button> }
+                    <Button color="info" onClick={this.handleReset}> Reset </Button>
+                    <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button>
+                    <Button color="primary" onClick={this.handleFinish}> Done! </Button>
+                </div>
+                <div>
+                    {this.state.checkpoints.length ? 
+                    <GhostRacerComponent checkpoints={this.state.checkpoints} choreList={this.state.choreList} />
+                    : null}
+                </div>
+
+                    
+                
+
             </div>
-            </div>
+            
         )
     }
 
