@@ -12,7 +12,8 @@ class GhostRacer extends Component {
             choreList: [],
             toggleStart: true,
             seconds: 0,
-            checkpoints: []
+            checkpoints: [],
+            checkpointCounter: 0
         }
         this.interval = null;
         this.handleStart = this.handleStart.bind(this);
@@ -21,7 +22,6 @@ class GhostRacer extends Component {
         this.handleCheckpoint = this.handleCheckpoint.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleFinish = this.handleFinish.bind(this);
         this.clearChores = this.clearChores.bind(this);
     }
 
@@ -64,19 +64,26 @@ class GhostRacer extends Component {
     }
 
     handleCheckpoint() {
-        this.setState({
-            checkpoints: this.state.checkpoints.concat(this.state.seconds)
+        this.setState(prevstate => {
+        return({
+            checkpoints: this.state.checkpoints.concat(this.state.seconds),
+            checkpointCounter: prevstate.checkpointCounter + 1
         })
+        }, ()=> {
+            if(this.state.checkpointCounter === this.state.choreList.length){
+                alert("You're done!")
+                clearInterval(this.interval)
+            this.setState({
+                toggleStart: true,
+                finishTime: this.state.seconds,
+                finished: true,
+                checkpointCounter: 0
+            })
+            }
+        })
+        
     }
 
-    handleFinish() {
-        this.setState({
-            toggleStart: true,
-            finishTime: this.state.seconds,
-            finished: true
-        })
-        clearInterval(this.interval);
-    }
     clearChores() {
         this.setState ({
             chore: "",
@@ -96,6 +103,7 @@ class GhostRacer extends Component {
                             <input  className="choreInput" name="chore" placeholder="Chores to do" value={this.state.chore} onChange={this.handleChange} />
                         </div>
                         <div className="choreFormButtons">
+                        
                             <Button onClick={this.handleSubmit}> Submit </Button>
                             <Button onClick={this.clearChores}> Clear </Button>
                             <GhostRacerChoreList choreList={this.state.choreList} />
@@ -114,12 +122,9 @@ class GhostRacer extends Component {
                     : <Button color="danger" onClick={this.handleStop}> Stop </Button> }
                     <Button color="info" onClick={this.handleReset}> Reset </Button>
                     <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button>
-                    <Button color="primary" onClick={this.handleFinish}> Done! </Button>
                 </div>
                 <div>
-                    {this.state.checkpoints.length ? 
                     <GhostRacerComponent checkpoints={this.state.checkpoints} choreList={this.state.choreList} />
-                    : null}
                 </div>
 
                     

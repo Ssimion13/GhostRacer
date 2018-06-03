@@ -21,7 +21,7 @@ class ModalExample extends React.Component {
     var mappedChoreList = this.props.choreList.map((x,i) => {
         return(
             <div key={x+i + 100}>
-                <li> {x} </li>
+                <li> {x}  </li>
             </div>
         )
     })
@@ -33,7 +33,7 @@ class ModalExample extends React.Component {
           <ModalBody>
                 <div>  
                     <ol>
-                        {mappedChoreList}
+                        {mappedChoreList} 
                     </ol>
                 </div>
           </ModalBody>

@@ -13,7 +13,7 @@ function FrontPage () {
                     <p>From waking up in the morning to getting chores done, race against yourself!</p>
                     <p className="lead">
                     <Link to="/GhostRacer">
-                    <Button color="primary">
+                    <Button color="danger">
                     Get Racing!
                     </Button>
                     </Link>
