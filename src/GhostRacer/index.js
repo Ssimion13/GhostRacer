@@ -2,7 +2,8 @@ import React, {Component} from "react"
 import {Button} from "reactstrap"
 import GhostRacerChoreList from "./GhostRacerChoreList"
 import GhostRacerComponent from "./GhostRacerComponent"
-
+import {addSecond, clearCount} from "../redux"
+import { connect } from 'react-redux';
 
 class GhostRacer extends Component {
     constructor(){
@@ -16,13 +17,13 @@ class GhostRacer extends Component {
             checkpointCounter: 0
         }
         this.interval = null;
-        this.handleStart = this.handleStart.bind(this);
         this.handleStop = this.handleStop.bind(this);
         this.handleReset = this.handleReset.bind(this);
         this.handleCheckpoint = this.handleCheckpoint.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clearChores = this.clearChores.bind(this);
+        this.addSecond = this.addSecond.bind(this);
     }
 
     handleChange(e){
@@ -39,12 +40,8 @@ class GhostRacer extends Component {
     }
 
 
-    handleStart() {
-        this.setState({toggleStart: false})
-        this.interval = setInterval( () =>
-            this.setState({
-              seconds: this.state.seconds + 1
-            }), 1000)
+    addSecond() {
+        this.timer = setInterval(()=> {this.props.addSecond()}, 1000);
     }
 
     handleStop() {
@@ -118,7 +115,7 @@ class GhostRacer extends Component {
                 </div>
                 <div className="GhostRacerButtonsMainDiv" >
                     {this.state.toggleStart ? 
-                    <Button color="success" onClick={this.handleStart}> Start </Button>
+                    <Button color="success" onClick={this.addSecond}> Start </Button>
                     : <Button color="danger" onClick={this.handleStop}> Stop </Button> }
                     <Button color="info" onClick={this.handleReset}> Reset </Button>
                     <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button>
@@ -138,4 +135,4 @@ class GhostRacer extends Component {
 
 }
 
-export default GhostRacer
+export default connect(state => state, { addSecond, clearCount })(GhostRacer);
