@@ -16,8 +16,47 @@ export const clearCount = () => {
     }
 }
 
-const initialState = {
+export const handleStop = () => {
+    return dispatch => {
+        dispatch({
+            type: "HANDLE_STOP"
+        });
+    }
+}
 
+export const handleReset = () => {
+    return dispatch => {
+        dispatch({
+            type: "HANDLE_RESET"
+        });
+    }
+}
+
+export const handleCheckpoint = () => {
+    return dispatch => {
+        dispatch({
+            type: "HANDLE_CHECKPOINT"
+        });
+    }
+}
+
+export const handleFinish = () => {
+    return dispatch => {
+        dispatch({
+            type: "HANDLE_FINISH"
+        });
+    }
+}
+
+const initialState = {
+    seconds: 0,
+    toggleStart: true,
+    chore: "",
+    choreList: [],
+    checkpoints: [],
+    checkpointCounter: 0,
+    finished: false,
+    finishTime: 0
 }
 
 export const reducer = (prevState = initialState, action) => {
@@ -28,11 +67,39 @@ export const reducer = (prevState = initialState, action) => {
                 seconds: prevState.seconds + 1,
                 toggleStart: false
             }
+        case "HANDLE_STOP":
+            return {
+                ...prevState,
+                toggleStart: true
+            }
         case "CLEAR_COUNT":
             return {
                 ...prevState,
                 seconds: 0,
                 toggleStart: true
+            }
+        case "HANDLE_RESET":
+            return {
+                ...prevState,
+                toggleStart: true,
+                seconds: 0,
+                chore: "",
+                choreList: [],
+                checkpoints: []
+            }
+        case "HANDLE_CHECKPOINT":
+            return {
+                ...prevState,
+                checkpoints: prevState.checkpoints.concat(prevState.seconds),
+                checkpointCounter: prevState.checkpointCounter + 1
+            }
+        case "HANDLE_FINISH":
+            return {
+                ...prevState,
+                toggleStart: true,
+                finishTime: this.state.seconds,
+                finished: true,
+                checkpointCounter: 0
             }
 
         default:

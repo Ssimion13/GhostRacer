@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {Button} from "reactstrap"
 import GhostRacerChoreList from "./GhostRacerChoreList"
 import GhostRacerComponent from "./GhostRacerComponent"
-import {addSecond, clearCount} from "../redux"
+import { handleReset, addSecond, clearCount, handleStop, handleCheckpoint, handleFinish } from "../redux"
 import { connect } from 'react-redux';
 
 class GhostRacer extends Component {
@@ -41,44 +41,38 @@ class GhostRacer extends Component {
 
 
     addSecond() {
-        this.timer = setInterval(()=> {this.props.addSecond()}, 1000);
+        this.interval = setInterval(()=> {this.props.addSecond()}, 1000);
     }
 
     handleStop() {
-        this.setState({toggleStart: true});
+        this.props.handleStop();
         clearInterval(this.interval);
     }
 
     handleReset() {
         clearInterval(this.interval);
-        this.setState ({
-            toggleStart: true,
-            seconds: 0,
-            chore: "",
-            choreList: [],
-            checkpoints: []
-        })
+        this.props.handleReset();
     }
 
     handleCheckpoint() {
-        this.setState(prevstate => {
-        return({
-            checkpoints: this.state.checkpoints.concat(this.state.seconds),
-            checkpointCounter: prevstate.checkpointCounter + 1
-        })
-        }, ()=> {
+        this.props.handleCheckpoint();
+        ()=> {
             if(this.state.checkpointCounter === this.state.choreList.length){
                 alert("You're done!")
                 clearInterval(this.interval)
-            this.setState({
-                toggleStart: true,
-                finishTime: this.state.seconds,
-                finished: true,
-                checkpointCounter: 0
-            })
+                this.handleFinish();
             }
+   
+        }
+    }
+
+    handleFinish() {
+        this.setState({
+            toggleStart: true,
+            finishTime: this.state.seconds,
+            finished: true,
+            checkpointCounter: 0
         })
-        
     }
 
     clearChores() {
@@ -110,18 +104,20 @@ class GhostRacer extends Component {
                     
                 <div>
                     <div className="timerDiv"> 
-                    {Math.round(this.state.seconds / 60)} : {this.state.seconds % 60}
+                    {Math.round(this.props.seconds / 60)} : {this.props.seconds % 60}
                     </div>
                 </div>
                 <div className="GhostRacerButtonsMainDiv" >
-                    {this.state.toggleStart ? 
+                    {this.props.toggleStart ? 
                     <Button color="success" onClick={this.addSecond}> Start </Button>
                     : <Button color="danger" onClick={this.handleStop}> Stop </Button> }
-                    <Button color="info" onClick={this.handleReset}> Reset </Button>
-                    <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button>
+                    {!this.props.toggleStart ?
+                    <Button color="info" onClick={this.handleReset}> Reset </Button> : null }
+                    {!this.props.toggleStart ?
+                    <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button> : null }
                 </div>
                 <div>
-                    <GhostRacerComponent checkpoints={this.state.checkpoints} choreList={this.state.choreList} />
+                    <GhostRacerComponent checkpoints={this.props.checkpoints} choreList={this.props.choreList} />
                 </div>
 
                     
@@ -135,4 +131,4 @@ class GhostRacer extends Component {
 
 }
 
-export default connect(state => state, { addSecond, clearCount })(GhostRacer);
+export default connect(state => state, { handleReset, addSecond, clearCount, handleStop, handleCheckpoint, handleFinish })(GhostRacer);
