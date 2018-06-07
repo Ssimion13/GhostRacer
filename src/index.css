@@ -13,8 +13,21 @@ body {
   background-color: rgba(237, 15, 2, 0.9)
 }
 
+.mr-auto {
+  font-size: 30px;
+}
+
 a {
-  color: black
+  color: black;
+  transition: .55s color; 
+  font-size: 18px;
+  padding: 5px
+}
+a:hover {
+ color: black;
+ background-color: darkorange;
+ border-radius: 5px;
+ text-decoration: none;
 }
 
 .choreFormMain {
@@ -65,11 +78,20 @@ a {
 }
 
 .checkpointsMainDiv {
-  height: 500px;
+  margin-top: 20px;
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .startButtonDivs {
   width: 100%;
   display: flex;
   justify-content: space-around;
+}
+
+.checkpoint {
+
 }

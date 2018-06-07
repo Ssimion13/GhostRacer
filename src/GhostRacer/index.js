@@ -76,7 +76,10 @@ class GhostRacer extends Component {
 
 
     render(){
-
+        let placeholder = 0;
+        if(this.props.seconds > 9){
+            placeholder = null
+        }
         return(
             <div>
                 <form className="choreFormMain">
@@ -95,7 +98,7 @@ class GhostRacer extends Component {
                     
                 <div>
                     <div className="timerDiv"> 
-                    {Math.round(this.props.seconds / 60)} : {this.props.seconds % 60}
+                    {Math.round(this.props.seconds / 60)} : {placeholder}{this.props.seconds % 60}
                     </div>
                 </div>
                 <div className="GhostRacerButtonsMainDiv" >
@@ -107,11 +110,13 @@ class GhostRacer extends Component {
                     : <Button color="danger" onClick={this.handleStop}> Stop </Button> }
                     {!this.props.toggleStart ?
                     <Button color="info" onClick={this.handleReset}> Reset </Button> : null }
-                    {!this.props.toggleStart ?
+                    {!this.props.toggleStart && !this.props.finished ?
                     <Button color="info" onClick={this.handleCheckpoint}> Checkpoint </Button> : null }
                 </div>
                 <div>
-                    <GhostRacerComponent checkpoints={this.props.checkpoints} choreList={this.props.choreList} />
+                    {!this.props.toggleStart ?
+                    <GhostRacerComponent finishTime={this.props.finishTime} checkpoints={this.props.checkpoints} choreList={this.props.choreList} />
+                    : null }
                 </div>
 
                     

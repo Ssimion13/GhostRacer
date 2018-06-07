@@ -33,13 +33,14 @@ class ModalExample extends React.Component {
           <ModalBody>
                 <div>  
                     <ol>
+                      {this.props.choreList.length > 0 ?
                         {mappedChoreList} 
+                        : "No Chores Here! Add some chores with the input box!" }
                     </ol>
                 </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="primary" onClick={this.toggle}> Got it! </Button>{' '}
           </ModalFooter>
         </Modal>
       </div>

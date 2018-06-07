@@ -101,7 +101,10 @@ export const reducer = (prevState = initialState, action) => {
                 seconds: 0,
                 chore: "",
                 choreList: [],
-                checkpoints: []
+                checkpoints: [],
+                finished: false,
+                finishTime: 0,
+                checkpointCounter: 0
             }
         case "HANDLE_CHECKPOINT":
             return {
@@ -112,7 +115,6 @@ export const reducer = (prevState = initialState, action) => {
         case "HANDLE_FINISH":
             return {
                 ...prevState,
-                toggleStart: true,
                 finishTime: prevState.seconds,
                 finished: true,
                 checkpointCounter: 0

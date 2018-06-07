@@ -36,10 +36,10 @@ export default class Example extends React.Component {
           <Collapse isOpen={!this.state.collapsed} navbar>
             <Nav navbar>
               <NavItem className="linkIcons">
-                <Link to="/"> Home </Link>
+                <Link to="/" onClick={this.toggleNavbar}> Home </Link>
               </NavItem>
               <NavItem className="linkIcons">
-               <Link to="GhostRacer"> Ghost Racer </Link>
+               <Link to="GhostRacer" onClick={this.toggleNavbar}> Ghost Racer </Link>
               </NavItem>
             </Nav>
           </Collapse>
