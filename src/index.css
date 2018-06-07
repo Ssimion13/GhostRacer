@@ -43,7 +43,7 @@ a {
 
 .GhostRacerButtonsMainDiv {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-left: 8px;
   margin-right: 8px;
 }
@@ -66,4 +66,10 @@ a {
 
 .checkpointsMainDiv {
   height: 500px;
+}
+
+.startButtonDivs {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }

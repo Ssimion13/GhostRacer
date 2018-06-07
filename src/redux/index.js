@@ -48,6 +48,22 @@ export const handleFinish = () => {
     }
 }
 
+export const clearChores = () => {
+    return dispatch => {
+        dispatch({
+            type: "CLEAR_CHORES"
+        });
+    }
+}
+export const submitChore = (chore) => {
+    return dispatch => {
+        dispatch({
+            type: "SUBMIT_CHORE",
+            chore
+        })
+    }
+}
+
 const initialState = {
     seconds: 0,
     toggleStart: true,
@@ -97,9 +113,20 @@ export const reducer = (prevState = initialState, action) => {
             return {
                 ...prevState,
                 toggleStart: true,
-                finishTime: this.state.seconds,
+                finishTime: prevState.seconds,
                 finished: true,
                 checkpointCounter: 0
+            }
+        case "CLEAR_CHORES":
+            return {
+                ...prevState,
+                chore: "",
+                choreList: []
+            }
+        case "SUBMIT_CHORE":
+            return {
+                ...prevState,
+                choreList: prevState.choreList.concat(action.chore),
             }
 
         default:
