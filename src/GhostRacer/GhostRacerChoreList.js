@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-class ModalExample extends React.Component {
+
+
+
+class GhostRacerChoreList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,11 +21,10 @@ class ModalExample extends React.Component {
   }
 
   render() {
-    var mappedChoreList = this.props.choreList.map((x,i) => {
+    console.log(this.props.choreList);
+        var mappedChoreList = this.props.choreList.map((x,i) => {
         return(
-            <div key={x+i + 100}>
-                <li> {x}  </li>
-            </div>
+                <li key={x+ i + 100}> {x}  </li>
         )
     })
     return (
@@ -32,11 +34,9 @@ class ModalExample extends React.Component {
           <ModalHeader toggle={this.toggle}>Chore List</ModalHeader>
           <ModalBody>
                 <div>  
-                    <ol>
                       {this.props.choreList.length > 0 ?
-                        {mappedChoreList} 
+                        <ol> {mappedChoreList}  </ol>
                         : "No Chores Here! Add some chores with the input box!" }
-                    </ol>
                 </div>
           </ModalBody>
           <ModalFooter>
@@ -48,4 +48,4 @@ class ModalExample extends React.Component {
   }
 }
 
-export default ModalExample;
+export default GhostRacerChoreList

@@ -15,9 +15,11 @@ function GhostRacerComponent(props) {
         )
     })
 
+
     return(
         <div className="checkpointsMainDiv">
             {checkpointsMap}
+
         </div>
     )
 }

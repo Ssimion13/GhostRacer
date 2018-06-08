@@ -9,12 +9,8 @@ class GhostRacer extends Component {
     constructor(){
         super();
         this.state = {
-            chore: "",
-            choreList: [],
-            toggleStart: true,
-            seconds: 0,
-            checkpoints: [],
-            checkpointCounter: 0
+            toggle: false,
+            chore: ""
         }
         this.interval = null;
         this.handleStop = this.handleStop.bind(this);
@@ -35,9 +31,14 @@ class GhostRacer extends Component {
     submitChore(e){
         this.props.submitChore(this.state.chore);
         this.setState({
-            choreList: this.state.choreList.concat(this.state.chore),
-            chore: ""
+            chore: "",
+            toggle: true
         })
+        setTimeout(() => {
+            this.setState({
+                toggle: false
+            })
+         }, 3000);
     }
 
 
@@ -95,7 +96,9 @@ class GhostRacer extends Component {
                         </div>
                     </div>
                 </form>
-                    
+                <div className={this.state.toggle? 'emptyDivFadeIn':'emptyDivFadeOut'}>
+                        <div className="currentChoreAnnouncement"> {this.props.currentChore} has been added to the chore list! </div>
+                </div>
                 <div>
                     <div className="timerDiv"> 
                     {Math.round(this.props.seconds / 60)} : {placeholder}{this.props.seconds % 60}

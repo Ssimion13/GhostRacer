@@ -129,6 +129,7 @@ export const reducer = (prevState = initialState, action) => {
             return {
                 ...prevState,
                 choreList: prevState.choreList.concat(action.chore),
+                currentChore: action.chore
             }
 
         default:
